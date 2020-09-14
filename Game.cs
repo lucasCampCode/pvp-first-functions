@@ -4,21 +4,18 @@ using System.Text;
 
 namespace HelloWorld
 {
-    struct Player
-    {
-        public int health;
-        public int damage;
-    }
     struct Item
     {
-        public int healthBoost;
-        public int damageBoost;
+        public int statBoost;
     }
+
     class Game
     {
-        bool _gameOver = false;
-        Player _player1, _player2;
-        Item sword, dagger;
+        private bool _gameOver = false;
+        private Player _player1;
+        private Player _player2;
+        private Item _sword;
+        private Item _dagger;
 
         //Run the game
         public void Run()
@@ -33,23 +30,14 @@ namespace HelloWorld
             End();
         }
 
-        public void InitializePlayers()
+        public void InitializeWeapons()
         {
-            _player1.health = 100;
-            _player1.damage = 5;
+            _sword.statBoost = 20;
 
-            _player2.health = 100;
-            _player2.damage = 5;
-
+            _dagger.statBoost = 10;
         }
-        public void InitializeItems()
-        {
-            sword.healthBoost = 10;
-            sword.damageBoost = 20;
 
-            dagger.healthBoost = 20;
-            dagger.damageBoost = 10;
-        }
+        
         public void ClearScreen()
         {
             Console.WriteLine("press any key to continue!");
@@ -79,59 +67,51 @@ namespace HelloWorld
             
         }
         //equips items to players
-        public void EquipItems()
+        public void SelectItem(Player player)
         {
             char input;
             GetInput(out input, "sword", "dagger", "choose your weapon! player one");
             if (input == '1')
             {
-                _player1.damage += sword.damageBoost;
+                player.EquipItem(_sword);
             }
             else if(input == '2')
             {
-                _player1.damage += dagger.damageBoost;
+                player.EquipItem(_dagger);
             }
 
             Console.WriteLine("player 1");
-            PrintStats(_player1);
-
-            GetInput(out input, "sword", "dagger", "choose your weapon! player two");
-            if (input == '1')
-            {
-                _player2.damage += sword.damageBoost;
-            }
-            else if (input == '2')
-            {
-                _player2.damage += dagger.damageBoost;
-            }
-            Console.WriteLine("player 2");
-            PrintStats(_player2);
+            player.PrintStats();
             ClearScreen();
 
         }
-        public void PrintStats(Player player)
+        public Player CreateCharater()
         {
-            Console.WriteLine("health: " + player.health);
-            Console.WriteLine("damage: " + player.damage);
-            Console.WriteLine();
+            Console.WriteLine("what is your name?");
+            string name = Console.ReadLine();
+            Player player = new Player(name,100,10);
+            SelectItem(player);
+            return player;
         }
+        
         public void StartBattle()
         {
             Console.WriteLine("Battle begin");
 
-            while(_player1.health > 0 && _player2.health > 0)
+            while(_player1.GetIsAlive() && _player2.GetIsAlive())
             {
                 Console.WriteLine("player one stats");
-                PrintStats(_player1);
+                _player1.PrintStats();
                 Console.WriteLine("player two stats");
-                PrintStats(_player2);
+                _player2.PrintStats();
                 Console.WriteLine();
                 char input;
                 GetInput(out input, "Attack","defend","your turn player one!");
                 if (input == '1')
                 {
-                    _player2.health -= _player1.damage;
-                }else if (input == '2')
+                    _player1.Attack(_player2);
+                }
+                else if (input == '2')
                 {
                     Console.WriteLine("you can't defend");
                     Console.ReadKey();
@@ -140,7 +120,7 @@ namespace HelloWorld
                 GetInput(out input, "Attack", "defend", "your turn player two!");
                 if (input == '1')
                 {
-                    _player1.health -= _player2.damage;
+                    _player2.Attack(_player1);
                 }
                 else if (input == '2')
                 {
@@ -154,7 +134,7 @@ namespace HelloWorld
 
         public void battleOver()
         {
-            if(_player1.health > 0)
+            if(_player1.GetIsAlive())
             {
                 Console.WriteLine("player one wins!!!");
             }
@@ -168,9 +148,10 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
-            InitializeItems();
-            InitializePlayers();
-            EquipItems();
+            InitializeWeapons();
+            _player1 = CreateCharater();
+            _player2 = CreateCharater();
+
         }
 
         //Repeated until the game ends
