@@ -73,13 +73,13 @@ namespace HelloWorld
             GetInput(out input, "sword", "dagger", "choose your weapon! player one");
             if (input == '1')
             {
-                player.EquipItem(_sword);
+                player.AddItemToInv(_sword, 0);
             }
             else if(input == '2')
             {
-                player.EquipItem(_dagger);
+                player.AddItemToInv(_dagger,0);
             }
-
+            player.EquipItem(0);
             Console.WriteLine("player 1");
             player.PrintStats();
             ClearScreen();
@@ -88,7 +88,7 @@ namespace HelloWorld
         public Player CreateCharater()
         {
             Console.WriteLine("what is your name?");
-            Player player = new Player(Console.ReadLine(),100,10);
+            Player player = new Player(Console.ReadLine(),100,10,5);
             SelectItem(player);
             return player;
         }
