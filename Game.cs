@@ -88,8 +88,7 @@ namespace HelloWorld
         public Player CreateCharater()
         {
             Console.WriteLine("what is your name?");
-            string name = Console.ReadLine();
-            Player player = new Player(name,100,10);
+            Player player = new Player(Console.ReadLine(),100,10);
             SelectItem(player);
             return player;
         }
@@ -100,13 +99,13 @@ namespace HelloWorld
 
             while(_player1.GetIsAlive() && _player2.GetIsAlive())
             {
-                Console.WriteLine("player one stats");
+                Console.WriteLine(_player1.GetName() + " stats");
                 _player1.PrintStats();
-                Console.WriteLine("player two stats");
+                Console.WriteLine(_player2.GetName() + " stats");
                 _player2.PrintStats();
                 Console.WriteLine();
                 char input;
-                GetInput(out input, "Attack","defend","your turn player one!");
+                GetInput(out input, "Attack", "defend", "your turn " + _player1.GetName());
                 if (input == '1')
                 {
                     _player1.Attack(_player2);
@@ -117,7 +116,7 @@ namespace HelloWorld
                     Console.ReadKey();
                 }
 
-                GetInput(out input, "Attack", "defend", "your turn player two!");
+                GetInput(out input, "Attack", "defend", "your turn " + _player2.GetName());
                 if (input == '1')
                 {
                     _player2.Attack(_player1);

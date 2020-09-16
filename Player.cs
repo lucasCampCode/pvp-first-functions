@@ -26,6 +26,12 @@ namespace HelloWorld
             _damage += weapon.statBoost;
 
         }
+
+        public string GetName()
+        {
+            return _name;
+        }
+
         public void PrintStats()
         {
             Console.WriteLine("Name: " + _name);
