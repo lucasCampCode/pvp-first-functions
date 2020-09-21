@@ -5,6 +5,7 @@ namespace HelloWorld
     struct Item
     {
         public string name;
+        public int cost;
         public int statBoost;
     }
 
@@ -33,7 +34,7 @@ namespace HelloWorld
             End();
         }
 
-        public void InitializeWeapons()
+        private void InitWeapons()
         {
             _sword.name = "sword";
             _sword.statBoost = 20;
@@ -266,7 +267,7 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
-            InitializeWeapons();
+            InitWeapons();
             _player1 = CreateCharater();
             _player2 = CreateCharater();
 
