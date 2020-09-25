@@ -34,6 +34,11 @@ namespace HelloWorld
                 _health = 0;
             }
         }
+        public virtual void PrintStats()
+        {
+            Console.WriteLine("Name: " + _name);
+            Console.WriteLine("health: " + _health);
+        }
         public bool IsAlive()
         {
             return _health > 0;
@@ -42,10 +47,10 @@ namespace HelloWorld
         {
             return _name;
         }
-        public virtual void PrintStats()
+        public float GetHealth()
         {
-            Console.WriteLine("Name: " + _name);
-            Console.WriteLine("health: " + _health);
+            return _health;
         }
+
     }
 }

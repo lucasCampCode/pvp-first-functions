@@ -14,6 +14,7 @@ namespace HelloWorld
         private bool _gameOver = false;
         private Player _player1;
         private Player _player2;
+        private Entity _finisher;
         private Item _sword;
         private Item _dagger;
         private Item _bow;
@@ -164,7 +165,7 @@ namespace HelloWorld
         public Player CreateCharater()
         {
             Console.WriteLine("what is your name?");
-            Player player = new Player(Console.ReadLine(),100,10,3);
+            Player player = new Player(Console.ReadLine(),200,10,3);
             SelectLoadout(player);
             return player;
         }
@@ -230,7 +231,7 @@ namespace HelloWorld
                 {
                     _player1.Attack(_player2);
                 }
-                else if (input == '2')
+                else
                 {
                     SwitchWeapons(_player1);
                     Console.ReadKey();
@@ -241,13 +242,25 @@ namespace HelloWorld
                 {
                     _player2.Attack(_player1);
                 }
-                else if (input == '2')
+                else
                 {
                     SwitchWeapons(_player2);
                     Console.ReadKey();
                 }
                 Console.Clear();
+                if(_player1.GetHealth() <= 15 || _player2.GetHealth() <= 15)
+                {
+                    if(_player1.GetHealth() < _player2.GetHealth())
+                    {
+                        _finisher.Attack(_player1);
+                    }
+                    else
+                    {
+                        _finisher.Attack(_player2);
+                    }
+                }
             }
+            
             _gameOver = true;
         }
 
@@ -267,6 +280,7 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
+            _finisher = new Wizard("harry",100,9000,100);
             InitWeapons();
             _player1 = CreateCharater();
             _player2 = CreateCharater();
