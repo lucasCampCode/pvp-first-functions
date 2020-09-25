@@ -4,33 +4,39 @@ using System.Text;
 
 namespace HelloWorld
 {
-    class Player 
+    class Player : Entity
     {
-        private string _name;
-        private int _health;
-        private int _damage;
         private Item[] _inventory;
         private Item _currentWeapon;
         private Item _empty;
 
-        public Player()
+        public Player() : base()
         {
-            _health = 100;
-            _damage = 10;
             _inventory = new Item[3];
             _empty.statBoost = 0;
             _empty.name = "empty";
         }
 
-        public Player(string name,int healthVal,int damageVal,int inventorySize)
+        public Player(string name,int healthVal,int damageVal,int inventorySize) : base(name, healthVal, damageVal)
         {
-            _name = name;
-            _health = healthVal;
-            _damage = damageVal;
             _empty.name = "empty";
             _empty.statBoost = 0;
             _inventory = new Item[inventorySize];
         }
+
+        public override void Attack(Entity enemy)
+        {
+            if (_currentWeapon.name != "empty")
+            {
+                float totalDamage = _damage + _currentWeapon.statBoost;
+                enemy.TakeDamage(totalDamage);
+            }
+            else
+            {
+                base.Attack(enemy);
+            }
+        }
+
         public Item[] GetInventory()
         {
             return _inventory;
@@ -71,35 +77,13 @@ namespace HelloWorld
         public void MoveItem(int from,int to) 
         {
             _inventory[to] = _inventory[from];
-            RemoveItem( from);
+            RemoveItem(from);
         }
-
-        public string GetName()
+        public override void PrintStats()
         {
-            return _name;
-        }
-
-        public void PrintStats()
-        {
-            Console.WriteLine("Name: " + _name);
-            Console.WriteLine("health: " + _health);
+            base.PrintStats();
             Console.WriteLine("Damage: " + (_damage + _currentWeapon.statBoost));
-        }
-        public bool GetIsAlive()
-        {
-            return _health > 0;
-        }
-        public void Attack(Player enemy)
-        {
-            int totalDamage = _damage + _currentWeapon.statBoost;
-            enemy.TakeDamage(totalDamage);
-        }
-        private void TakeDamage(int damageVal)
-        {
-            if (GetIsAlive())
-            {
-                _health -= damageVal;
-            }
+            Console.WriteLine();
         }
     }
 }

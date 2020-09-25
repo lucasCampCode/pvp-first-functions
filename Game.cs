@@ -217,7 +217,7 @@ namespace HelloWorld
         {
             Console.WriteLine("Battle begin");
 
-            while(_player1.GetIsAlive() && _player2.GetIsAlive())
+            while(_player1.IsAlive() && _player2.IsAlive())
             {
                 Console.WriteLine(_player1.GetName() + " stats");
                 _player1.PrintStats();
@@ -253,7 +253,7 @@ namespace HelloWorld
 
         public void battleOver()
         {
-            if(_player1.GetIsAlive())
+            if(_player1.IsAlive())
             { 
                 Console.WriteLine("player "+ _player1.GetName() +" wins!!!");
             }
