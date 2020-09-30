@@ -41,6 +41,7 @@ namespace HelloWorld
         {
             return _inventory;
         }
+
         public bool contains(int index)
         {
             if(index > 0 && index < _inventory.Length)
@@ -62,23 +63,28 @@ namespace HelloWorld
             }
                 
         }
+
         public void AddItemToInv(Item item, int index)
         {
             _inventory[index] = item;
         }
+
         public void UnequipItem()
         {
             _currentWeapon = _empty;
         }
+
         public void RemoveItem(int index)
         {
             _inventory[index] = _empty;
         }
+
         public void MoveItem(int from,int to) 
         {
             _inventory[to] = _inventory[from];
             RemoveItem(from);
         }
+
         public override void PrintStats()
         {
             base.PrintStats();

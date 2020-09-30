@@ -12,6 +12,7 @@ namespace HelloWorld
         {
             _mana = 100;
         }
+
         public Wizard(string nameVal, float healthVal, float damageVal, float manaVal)
             : base(nameVal, healthVal, damageVal)
         {

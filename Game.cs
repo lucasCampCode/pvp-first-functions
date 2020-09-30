@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
 
 namespace HelloWorld
 {
@@ -51,7 +54,6 @@ namespace HelloWorld
             _mace.statBoost = 15;
         }
 
-        
         public void ClearScreen()
         {
             Console.WriteLine("press any key to continue!");
@@ -160,6 +162,35 @@ namespace HelloWorld
             Console.WriteLine("player " + player.GetName());
             player.PrintStats();
             ClearScreen();
+
+        }
+        public void Save()
+        {
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            _player1.Save(writer);
+            _player2.Save(writer);
+            writer.Close();
+        }
+        public void Load()
+        {
+            StreamReader reader = new StreamReader("SaveData.txt");
+            _player1.load(reader);
+            _player2.load(reader);
+            reader.Close();
+        }
+        public void OpenMainMenu()
+        {
+            char input;
+            GetInput(out input,"create new characters","load old characters","what do you want?");
+            if (input == '2')
+            {
+                _player1 = new Player();
+                _player2 = new Player();
+                Load();
+                return;
+            }
+            _player1 = CreateCharater();
+            _player2 = CreateCharater();
 
         }
         public Player CreateCharater()
@@ -282,9 +313,7 @@ namespace HelloWorld
         {
             _finisher = new Wizard("harry",100,9000,100);
             InitWeapons();
-            _player1 = CreateCharater();
-            _player2 = CreateCharater();
-
+            OpenMainMenu();
         }
 
         //Repeated until the game ends
